@@ -418,6 +418,25 @@ check('T13 R2025 f0', 1 / (2 * pi * math.sqrt(0.18 * 120e-9)), 1083, 0.002)
 check('T13 R2022 f0', 1 / (2 * pi * math.sqrt(18e-3 * 82e-9)), 4144, 0.002)
 check('T13 H4-1a reflected X', 25 * 2 * pi * 12.75e3 * 1e-6, 2.003, 0.002)
 check('T13 M2', math.sqrt(75), 8.66, 0.001); check('T13 M3 f0', 1 / (2 * pi * math.sqrt(1e-8)), 1592, 0.001)
+# Topic 14/15 extra checks
+w = 1e6; L, C, Rs, RL = 1e-3, 1e-9, 1e3, 1e3
+Hf = -w * w * L * C * RL / (RL - w * w * L * C * (Rs + RL) + 1j * w * (L + C * Rs * RL))
+check('T14 R2021-2 formula', Hf, par(1j * w * L, RL) / (Rs + 1 / (1j * w * C) + par(1j * w * L, RL)), 1e-9)
+check('T14 E24-1 f0', 1 / (2 * pi * math.sqrt(25.33e-6 * 1e-9)), 1.000e6, 0.002)
+check('T14 E24-1 BW', 1 / (2 * pi * 2387 * 1e-9), 66.67e3, 0.002)
+check('T14 M2', 1 / (2 * pi * 1e-4), 1592, 0.001); check('T14 M3', 2 * abs(1 / (1 + 1j * 5000 / 1591.5)), 0.607, 0.003)
+for a, b in ((1, 2), (2, 3), (1.5, 4)):
+    R, C, w = 10e3, 1e-9, 2 * pi * 7e3
+    v, _ = solve([('V', 'i', 0, 1), ('R', 'i', 1, R), ('R', 1, 2, a * R), ('OPAMP', 0, 2, 3), ('R', 2, 3, b * R), ('C', 1, 3, C)], w)
+    check(f'T15 Eq75 a={a} b={b}', v[3], -(b / (1 + a)) / (1 + 1j * w * C * R * (a + b) / (1 + a)), 1e-9)
+R1, R2, C3, C4, w = 4e3, 7e3, 2e-9, 3e-9, 2 * pi * 9e3
+Z1, Z2, Z3, Z4 = R1, R2, 1 / (1j * w * C3), 1 / (1j * w * C4)
+v, _ = solve([('V', 'i', 0, 1), ('R', 'i', 1, R1), ('R', 1, 2, R2), ('C', 2, 0, C4), ('C', 1, 3, C3), ('OPAMP', 2, 3, 3)], w)
+check('T15 Sallen-Key Z form', v[3], Z3 * Z4 / (Z1 * Z2 + Z3 * (Z1 + Z2) + Z3 * Z4), 1e-9)
+check('T15 Sallen-Key RC form', v[3], 1 / (1 - w * w * R1 * R2 * C3 * C4 + 1j * w * C4 * (R1 + R2)), 1e-9)
+check('T15 F2023-1e f3', 1 / (2 * pi * 100e3 * 10e-12), 159.2e3, 0.001)
+check('T15 R2024-1e f3', 1 / (2 * pi * 180e3 * 100e-12), 8842, 0.002)
+check('T15 M2 f3', 1 / (2 * pi * 50e3 * 100e-12), 31.8e3, 0.002)
 
 print()
 print('FAILS:', fails)

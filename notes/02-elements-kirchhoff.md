@@ -172,7 +172,7 @@ $$v = R\,i \qquad i = G\,v, \quad G = \frac{1}{R}$$
 | R | resistance | ohms (Ω) |
 | G | conductance | siemens (S) |
 
-**What it means:** voltage across a resistor is proportional to current through it, **with Rule 3 labels** (Topic 1).
+**What it means:** voltage across a resistor is proportional to current through it, **with Topic 1 Rule 3 labels**.
 
 **When not:** Ohm's law is for **resistors only**. Never for a source, a diode or a whole circuit.
 

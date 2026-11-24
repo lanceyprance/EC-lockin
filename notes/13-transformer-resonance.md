@@ -213,7 +213,7 @@ Reflected: 100 × Zload ≈ 57.7 k + j1.05 M Ω. That is enormous next to Rs = 1
 | anything with Rs on the primary | reflect the load: (n1/n2)² ZL, solve the primary, then Eq 62 |
 | turns ratio for maximum power | n1/n2 = √(Rs/RL) (Rule 64) |
 | power in a secondary load | power is the same on both sides (lossless) |
-| a load impedance formula | combine with Rule 54 (Topic 11) |
+| a load impedance formula | combine with Topic 11 Rule 54 |
 | resonant frequency | ω0 = 1/√(LC) (Eq 65) |
 | "why is \|Z\| so big/small here?" | check if f is near f0 |
 

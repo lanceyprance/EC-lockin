@@ -152,6 +152,13 @@ Vac → Rs → output node. D1 (anode at the output) to Vdc1 (+) to ground. Vdc2
 
 So: Vmax = min(A, Vdc1), Vmin = max(−A, −Vdc2). Period = the input's.
 
+### 📐 Rule 87: no current, no drop
+When every diode is OFF and there is no other load, no current flows through the source resistance Rs.
+
+So Rs drops nothing, and the output node sits at the source voltage: vout = vin.
+
+**Use it when:** clippers (between the levels) and half-wave rectifiers while OFF. Not when a load resistor or capacitor still draws current.
+
 ### Drawing checklist: clipper output
 1. Draw the input sine faintly. Mark A and T.
 2. Draw horizontal dashed lines at +Vdc1 and −Vdc2.
@@ -279,7 +286,7 @@ Secondary peak: 230/23 = 10 V. Two bridge diodes conduct: 10 − 2 × 0.7 = **8.
 | You're asked for | Use |
 |---|---|
 | the type of circuit | diode in series → rectifier. Diode + battery to ground → clipper. Series C + diode → clamper. Diode then C ∥ R → peak detector |
-| the switching levels | Rule 81 (Topic 16): when does each diode turn ON? |
+| the switching levels | Topic 16 Rule 81: when does each diode turn ON? |
 | max and min | the clip levels, or the peak minus the drops, or the decay |
 | the period | same as the input. Full-wave: half |
 | an average | half-wave sine: A/π. Clamper: the shift |

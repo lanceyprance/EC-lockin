@@ -39,7 +39,7 @@ It is in the learning outcomes ("explain how nonlinear circuits differ…"), so 
 
 Open book: on your [exam sheet](../formula-sheet.md). Skim level.
 
-- Rule 88: op amp saturation: the output is limited to ±Esat. Rule 32 (Topic 7) only holds in the linear region.
+- Rule 88: op amp saturation: the output is limited to ±Esat. Topic 7 Rule 32 only holds in the linear region.
 - Rule 89: comparator (no feedback): vo = +Esat if v+ > v−, −Esat if v+ < v−.
 - Rule 90: flash ADC: a resistor ladder makes reference levels. One comparator per level. The outputs form a code.
 - Equation 91: an n-bit quantizer over a range V has 2ⁿ levels: resolution V/(2ⁿ − 1), maximum error half of that.
@@ -53,7 +53,7 @@ Open book: on your [exam sheet](../formula-sheet.md). Skim level.
 ![Op amp PWL characteristic](../img/18/L25-s26.png)
 
 ### 📐 Rule 88: saturation
-- Linear region: vo = A vd (A huge). With negative feedback, vd ≈ 0 and Rule 32 holds.
+- Linear region: vo = A vd (A huge). With negative feedback, vd ≈ 0 and Topic 7 Rule 32 holds.
 - Positive saturation: vo = +Esat.
 - Negative saturation: vo = −Esat.
 

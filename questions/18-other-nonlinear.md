@@ -50,7 +50,7 @@ From: Equation 91
 1. A comparator uses negative feedback.
 2. An op amp's output can't exceed its saturation voltage.
 3. A 3-bit flash ADC needs 7 comparators.
-4. Rule 32 (v+ = v−) holds when the op amp is saturated.
+4. Topic 7 Rule 32 (v+ = v−) holds when the op amp is saturated.
 
 <details><summary>Answer</summary>
 

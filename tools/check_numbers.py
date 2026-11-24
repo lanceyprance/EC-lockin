@@ -437,6 +437,18 @@ check('T15 Sallen-Key RC form', v[3], 1 / (1 - w * w * R1 * R2 * C3 * C4 + 1j * 
 check('T15 F2023-1e f3', 1 / (2 * pi * 100e3 * 10e-12), 159.2e3, 0.001)
 check('T15 R2024-1e f3', 1 / (2 * pi * 180e3 * 100e-12), 8842, 0.002)
 check('T15 M2 f3', 1 / (2 * pi * 50e3 * 100e-12), 31.8e3, 0.002)
+# Topics 16-18
+check('T16 R2025-1e current', (5 - 1.0) / 20e3, 0.2e-3)
+check('T16 E26-2 (i)', 0.5 / 2, 0.25)
+check('T16 M2', (9 - 0.7) / 1e3, 8.3e-3)
+f_ = lambda t: 5 * math.sin(2 * pi * 1e3 * t) - 0.7 - 4.3 * math.exp(-(t - 0.25e-3) / 1e-3)
+lo, hi = 1.0e-3, 1.25e-3
+for _ in range(60):
+    mid = (lo + hi) / 2; lo, hi = (mid, hi) if f_(mid) < 0 else (lo, mid)
+check('T17 H4-1d crossing t', lo, 1.086e-3, 0.002); check('T17 H4-1d min exact', 4.3 * math.exp(-(lo - 0.25e-3) / 1e-3), 1.864, 0.003)
+check('T17 F2021-3 min est', 4.79 * math.exp(-0.017 / 0.1), 4.04, 0.003)
+check('T17 M3', 6 * math.exp(-0.2), 4.91, 0.002)
+check('T18 E25-2 res', 10 / 255, 0.0392, 0.002); check('T18 E25-2 err%', 100 * 10 / 255 / 2 / 10, 0.196, 0.002)
 
 print()
 print('FAILS:', fails)

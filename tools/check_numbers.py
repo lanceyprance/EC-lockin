@@ -364,6 +364,13 @@ check('R2021-1e amp', abs(H), 0.7937, 0.003); check('R2021-1e phase', deg(H), 69
 w = 1e6; Zp = par(1j * w * 1e-3, 1000); H = Zp / (1000 + 1 / (1j * w * 1000e-12) + Zp)
 check('R2021-2 Vm', abs(H), 0.4472, 0.002); check('R2021-2 phi(cos form, deg)', deg(H) - 90, -26.57, 0.002, atol=1e-6)
 
+print('=== Topic notes extras (my answers) ===')
+check('T3 H0-2 P(R2) at 9V', (9 * 1320 / 2320) ** 2 / 2200, 11.92e-3, 0.003)
+check('T3 E6-2 20ohm', 5 * 20 / 40, 2.5); check('T3 E6-2 200ohm', 5 * 200 / 220, 4.545, 0.002)
+v, _ = solve([('V', 1, 0, 3), ('R', 1, 2, 1e3), ('R', 2, 0, 10e3), ('R', 2, 3, 1e3), ('R', 3, 0, 2e3), ('R', 3, 4, 2e3), ('R', 4, 0, 4e3)])
+check('T3 E6-3 e3', v[3].real, 1.2); check('T3 E6-3 e4', v[4].real, 0.8)
+check('T3 H0-1b total I', 9 / 2626.25, 3.427e-3, 0.001)
+
 print()
 print('FAILS:', fails)
 sys.exit(1 if fails else 0)

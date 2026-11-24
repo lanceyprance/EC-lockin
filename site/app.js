@@ -192,7 +192,7 @@ function finish(q, topic) {
   const froms = [...ans.matchAll(/^\s*(?:From|→)\s*:\s*(.+)$/gmi)].map(x => x[1].trim());
   if (!froms.length) { const a = ans.match(/^\s*→\s*(.+)$/m); if (a) froms.push(a[1].trim()); }
   const out = {
-    key: `${topic.file}#${qid}`, qid, title: title || (q.part === 'tut' ? 'Slide or past-final question' : ''), tut, part: q.part,
+    key: `${topic.file}#${qid}`, qid, title: title || (q.part === 'tut' ? 'Homework or past-paper question' : ''), tut, part: q.part,
     body, ans, from: froms.join('\n'), topic, type: 'open',
   };
   if (/true\s*or\s*false/i.test(title)) {
@@ -279,7 +279,7 @@ const MARK_LABEL = { got: '✓ Got it', part: '~ Partly', miss: '✗ Missed' };
 function typeLabel(q) {
   if (q.type === 'tf') return 'True / false';
   if (q.type === 'mcq') return 'Multiple choice';
-  return q.part === 'tut' ? 'Slides / past final' : 'Exam-style';
+  return q.part === 'tut' ? 'Homework / past paper' : 'Exam-style';
 }
 
 function renderCard(q, { showTopic = false, index } = {}) {
@@ -287,7 +287,7 @@ function renderCard(q, { showTopic = false, index } = {}) {
   const card = h(`<article class="card" id="q-${esc(q.qid)}-${q.topic.n}"></article>`);
   const tag = q.tut ? `<span class="tag tut">${esc(q.tut)}</span>` : `<span class="tag">${typeLabel(q)}</span>`;
   const topicTag = showTopic ? `<a class="tag from" href="#/topic/${String(q.topic.n).padStart(2, '0')}">Topic ${q.topic.n} · ${esc(q.topic.title.split(':')[0])}</a>` : '';
-  const head = h(`<div class="card-head">${tag}${topicTag}<h3>${index != null ? index + '. ' : ''}${q.tut ? '' : esc(q.qid) + (q.title ? ': ' : '')}${md(q.title || (q.tut ? 'Slide or past-final question' : ''), base, true)}</h3><span class="badge"></span></div>`);
+  const head = h(`<div class="card-head">${tag}${topicTag}<h3>${index != null ? index + '. ' : ''}${q.tut ? '' : esc(q.qid) + (q.title ? ': ' : '')}${md(q.title || (q.tut ? 'Homework or past-paper question' : ''), base, true)}</h3><span class="badge"></span></div>`);
   card.append(head);
   const badge = head.querySelector('.badge');
   const paint = () => {
@@ -684,7 +684,7 @@ async function viewTopic(n, seq) {
   app.append(h(`<ol class="howto"><li><b>Try it</b> on paper first</li><li><b>Check</b> the answer step by step</li><li><b>📖 Read the notes</b> it uses (they open beside the question)</li><li><b>Mark yourself</b> ✓ ~ ✗ so weak spots come back</li></ol>`));
   if (p.intro) app.append(h(`<div class="intro md">${md(p.intro, 'questions/')}</div>`));
   const bar = h(`<div class="filters"><div class="seg">
-      <button data-f="all">All</button><button data-f="tut">Slides + past final</button><button data-f="mid">Exam-style</button><button data-f="todo">Not done</button><button data-f="weak">Missed</button></div>
+      <button data-f="all">All</button><button data-f="tut">Homework + past papers</button><button data-f="mid">Exam-style</button><button data-f="todo">Not done</button><button data-f="weak">Missed</button></div>
       <div class="tally"></div></div>`);
   app.append(bar);
   const list = h(`<div></div>`); app.append(list);
@@ -696,7 +696,7 @@ async function viewTopic(n, seq) {
     let lastPart = null;
     shown.forEach(q => {
       if (q.part !== lastPart && (filter === 'all' || filter === 'todo' || filter === 'weak')) {
-        list.append(h(`<h2>${q.part === 'tut' ? 'Part A · Slide exercises and past-final questions' : 'Part B · Exam-style questions'}</h2>`)); lastPart = q.part;
+        list.append(h(`<h2>${q.part === 'tut' ? 'Part A · Homework and past-paper questions' : 'Part B · Exam-style questions'}</h2>`)); lastPart = q.part;
       }
       list.append(renderCard(q));
     });
@@ -715,7 +715,7 @@ async function viewDrill(kind, seq = routeSeq) {
   let list, title, sub;
   if (kind === 'tutorial') {
     list = qs.filter(q => q.part === 'tut').sort((a, b) => tutOrder(a) - tutOrder(b));
-    title = '🎯 Exam drill'; sub = 'Every slide exercise and past-final question in lecture order. Do each on paper first, then check.';
+    title = '🎯 Exam drill'; sub = 'Every homework and past-paper question: Homework 0 to 4, then the finals (newest first), then the resits. Do each on paper first, then check.';
   } else if (kind === 'weak') {
     list = qs.filter(q => ['miss', 'part'].includes(markOf(q.key)));
     title = '🔁 Weak spots'; sub = 'Questions you marked missed or partly. Get them to ✓.';
@@ -828,7 +828,7 @@ async function viewMock(id, seq) {
 // ---------------------------------------------------------------- repetition: one question at a time, misses come back
 // Each question has a level 0-5. A miss drops it to 0 and it returns after 3 other cards.
 // A got-it moves it up a level and pushes its return further away (cards AND minutes).
-const REP_SEED = []; // keys like 'questions/08-karnaugh-maps.md#S2' for questions in the 🔁 Relearn list
+const REP_SEED = []; // keys like 'questions/09-transients.md#F2023-1c' for questions in the 🔁 Relearn list
 const REP_GAPS = [[3, 0], [6, 10], [10, 180], [14, 720], [20, 1440], [30, 2880]]; // level → [cards, minutes]
 const REP_WHEN = ['in a few cards', 'in about 10 minutes', 'in about 3 hours', 'in about 12 hours', 'tomorrow', 'in about 2 days'];
 const repGet = () => store.get('rep:state', {});
@@ -883,7 +883,7 @@ async function viewRepeat(seq) {
   app.innerHTML = '';
   app.append(h(`<div><div class="crumb"><a href="#/">← Home</a></div><h1>🔁 Repetition</h1>
     <p class="sub">Do a question, then grade yourself. Missed ones come back in a few cards. Ones you get right come back later.</p></div>`));
-  const bar = h(`<div class="filters"><div class="seg"><button data-p="tut">Slides + past final</button><button data-p="all">Everything</button></div><div class="tally rep-stats"></div></div>`);
+  const bar = h(`<div class="filters"><div class="seg"><button data-p="tut">Homework + past papers</button><button data-p="all">Everything</button></div><div class="tally rep-stats"></div></div>`);
   app.append(bar);
   const lastBox = h(`<div class="rep-last" hidden></div>`);
   const statusBox = h(`<p class="rep-status"></p>`);

@@ -396,6 +396,15 @@ check('T9 R2025-1b i50', 2 / 1215 * (1 - math.exp(-50e-6 / (0.1 / 1215))), 0.750
 check('T9 R2023-1c', math.exp(-0.5 / 1.008), 0.609, 0.002)
 check('T9 M2', 5 * (1 - math.exp(-1)), 3.16, 0.002); check('T9 M3', 2e-3 * math.exp(-2), 0.271e-3, 0.002)
 check('T9 R2021-1c Thevenin', 0.6 / 1200, 0.5e-3)
+w = 2 * pi * 1e3; C1, R2c, C2 = 1e-9, 1e3, 2e-9
+Zf = (1 + 1j * w * R2c * C2) / (1j * w * (C1 + C2) - w * w * R2c * C1 * C2)
+check('T11 Z12 formula vs direct', Zf, par(1 / (1j * w * C1), R2c + 1 / (1j * w * C2)), 1e-9)
+check('T11 Y12 formula', 1j * w * C1 + 1j * w * C2 / (1 + 1j * w * R2c * C2), 1 / Zf, 1e-9)
+check('T11 R2023-1d f', 40 / (2 * pi * 0.018), 353.7, 0.001)
+check('T11 HX3-1b wRC', 2 * pi * 500 * 8200 * 100e-9, 2.576, 0.001)
+check('T11 M3 I', 10 / abs(1000 + 1 / (1j * 2 * pi * 1e3 * 159e-9)), 7.07e-3, 0.003)
+check('T10 E20-2 Vo', -par(1e3, 1 / (1j * 1000 * 2e-6)) / 500 * 5, -2 + 4j, 1e-6)
+check('T10 E20-1 phase', cmath.phase(5 / (1 + 20j)), -1.52, 0.003)
 
 print()
 print('FAILS:', fails)
